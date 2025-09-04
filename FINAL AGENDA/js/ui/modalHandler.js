@@ -100,7 +100,8 @@ const createReceiptHTML = (rental, products, theme = "light") => {
   });
 
   const discountAmount = rental.discount || 0;
-  const finalPrice = Math.max(0, subtotal - discountAmount);
+  const machineFee = rental.machineFee || 0;
+  const finalPrice = Math.max(0, subtotal - discountAmount + machineFee);
   const { totalInstallments = 1, paidInstallments = 0 } =
     rental.paymentInfo || {};
   const installmentValue = finalPrice > 0 ? finalPrice / totalInstallments : 0;
@@ -166,6 +167,13 @@ const createReceiptHTML = (rental, products, theme = "light") => {
                   discountAmount > 0
                     ? `<p class="text-lg font-semibold text-red-500 mb-1">Desconto: <span>-${formatCurrency(
                         discountAmount
+                      )}</span></p>`
+                    : ""
+                }
+                ${
+                  machineFee > 0
+                    ? `<p class="text-lg font-semibold text-sky-500 mb-1">Juros/Taxas: <span>+${formatCurrency(
+                        machineFee
                       )}</span></p>`
                     : ""
                 }

@@ -102,10 +102,17 @@ const createReceiptHTML = (rental, products, theme = "light") => {
   const discountAmount = rental.discount || 0;
   const machineFee = rental.machineFee || 0;
   const finalPrice = Math.max(0, subtotal - discountAmount + machineFee);
+
+  // Calcular o total pago com base nos pagamentos registrados
+  const totalPaid = (rental.payments || []).reduce(
+    (sum, p) => sum + (p.amount || 0),
+    0
+  );
+  const remainingBalance = Math.max(0, finalPrice - totalPaid); // Garante que não fique negativo
+
   const { totalInstallments = 1, paidInstallments = 0 } =
     rental.paymentInfo || {};
   const installmentValue = finalPrice > 0 ? finalPrice / totalInstallments : 0;
-  const remainingBalance = finalPrice - installmentValue * paidInstallments;
 
   return `
         <div class="font-sans ${colors.text}">
@@ -180,6 +187,9 @@ const createReceiptHTML = (rental, products, theme = "light") => {
                 <p class="text-2xl font-bold mb-1">Total da Locação: <span class="${
                   colors.title
                 }">${formatCurrency(finalPrice)}</span></p>
+                <p class="text-lg font-semibold mb-1">Total Pago: <span>${formatCurrency(
+                  totalPaid
+                )}</span></p>
                 ${
                   remainingBalance > 0.01
                     ? `<p class="text-lg font-semibold text-amber-500">Valor Pendente: <span>${formatCurrency(

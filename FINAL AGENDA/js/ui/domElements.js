@@ -46,6 +46,13 @@ export const elements = {
   modalFooter: document.getElementById("modalFooter"),
   closeModalBtn: document.getElementById("closeModalBtn"),
 
+  // Payment Modal Elements
+  paymentModal: document.getElementById("paymentModal"),
+  paymentForm: document.getElementById("paymentForm"),
+  rentalIdForPaymentInput: document.getElementById("rentalIdForPayment"),
+  paymentAmountInput: document.getElementById("paymentAmount"),
+  cancelPaymentBtn: document.getElementById("cancelPaymentBtn"),
+
   // Edit Product Modal Elements
   editProductModal: document.getElementById("editProductModal"),
   editProductForm: document.getElementById("editProductForm"),

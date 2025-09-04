@@ -7,6 +7,7 @@ import {
   renderSelectedItems,
   renderProductSelection,
   updateFinancialSummaries,
+  updateRentalFormSummary,
 } from "./ui/renderer.js";
 import * as auth from "./services/authService.js";
 import * as db from "./services/firestoreService.js";
@@ -88,6 +89,7 @@ const updateCreateRentalUI = () => {
     elements.rentalDateInput.value,
     elements.returnDateInput.value
   );
+  updateRentalFormSummary(selectedProductsForRental);
 };
 
 const updateEditRentalUI = () => {
@@ -215,6 +217,12 @@ const setupEventListeners = () => {
 
   elements.rentalDateInput.addEventListener("change", updateCreateRentalUI);
   elements.returnDateInput.addEventListener("change", updateCreateRentalUI);
+  elements.rentalDiscountInput.addEventListener("input", () =>
+    updateRentalFormSummary(selectedProductsForRental)
+  );
+  elements.rentalMachineFeeInput.addEventListener("input", () =>
+    updateRentalFormSummary(selectedProductsForRental)
+  );
 
   elements.rentalForm.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -224,6 +232,7 @@ const setupEventListeners = () => {
       date: elements.rentalDateInput.value,
       returnDate: elements.returnDateInput.value,
       discount: parseFloat(elements.rentalDiscountInput.value) || 0,
+      machineFee: parseFloat(elements.rentalMachineFeeInput.value) || 0,
       items: selectedProductsForRental,
       paymentInfo: {
         totalInstallments:
@@ -299,6 +308,7 @@ const setupEventListeners = () => {
       date: elements.editRentalDateInput.value,
       returnDate: elements.editReturnDateInput.value,
       discount: parseFloat(elements.editRentalDiscountInput.value) || 0,
+      machineFee: parseFloat(elements.editRentalMachineFeeInput.value) || 0,
       items: selectedProductsForEdit,
       paymentInfo: {
         totalInstallments:
@@ -346,6 +356,7 @@ const setupEventListeners = () => {
       elements.editRentalDateInput.value = rental.date;
       elements.editReturnDateInput.value = rental.returnDate;
       elements.editRentalDiscountInput.value = rental.discount || 0;
+      elements.editRentalMachineFeeInput.value = rental.machineFee || 0;
       elements.editRentalInstallmentsInput.value =
         rental.paymentInfo.totalInstallments || 1;
       updateEditRentalUI();
@@ -363,14 +374,17 @@ const setupEventListeners = () => {
     }
   });
 
-  // ⭐ LÓGICA DE IMPRESSÃO REMOVIDA DAQUI, POIS AGORA ESTÁ NO modalHandler.js ⭐
-
   elements.showHelpBtn.addEventListener("click", () =>
     elements.helpModal.classList.remove("hidden")
   );
   elements.closeHelpBtn.addEventListener("click", () =>
     elements.helpModal.classList.add("hidden")
   );
+
+  elements.toggleEditProductSelectionBtn.addEventListener("click", () => {
+    elements.editProductSelectionWrapper.classList.toggle("hidden");
+    elements.toggleEditProductIcon.classList.toggle("rotate-180");
+  });
 
   document.querySelectorAll(".calendar-trigger").forEach((trigger) => {
     trigger.addEventListener("click", () => {
@@ -385,6 +399,74 @@ const setupEventListeners = () => {
         }
       }
     });
+  });
+
+  // Backup Listeners
+  elements.exportBackupBtn.addEventListener("click", () => {
+    const dataToExport = {
+      products: products,
+      rentals: rentals,
+    };
+    const dataStr = JSON.stringify(dataToExport, null, 2);
+    const dataBlob = new Blob([dataStr], { type: "application/json" });
+    const url = URL.createObjectURL(dataBlob);
+    const anchor = document.createElement("a");
+    anchor.href = url;
+    anchor.download = `backup-locacoes-${
+      new Date().toISOString().split("T")[0]
+    }.json`;
+    anchor.click();
+    URL.revokeObjectURL(url);
+    showModal(`<p class="text-emerald-400">Backup exportado com sucesso!</p>`);
+  });
+
+  elements.importBackupBtn.addEventListener("click", () =>
+    elements.backupFileInput.click()
+  );
+
+  elements.backupFileInput.addEventListener("change", (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      try {
+        const importedData = JSON.parse(e.target.result);
+        if (importedData.products && importedData.rentals) {
+          showModal(
+            `<p class="text-amber-400">Atenção: Isso adicionará os dados do arquivo ao sistema. Dados existentes não serão apagados. Deseja continuar?</p>`,
+            async () => {
+              elements.loadingOverlay.classList.remove("hidden");
+              // Import products
+              for (const product of importedData.products) {
+                // Remove 'id' if it exists, so Firestore creates a new one
+                const { id, ...productData } = product;
+                await db.addProduct(productData);
+              }
+              // Import rentals
+              for (const rental of importedData.rentals) {
+                const { id, ...rentalData } = rental;
+                await db.addRental(rentalData);
+              }
+              elements.loadingOverlay.classList.add("hidden");
+              showModal(
+                `<p class="text-emerald-400">Dados importados com sucesso!</p>`
+              );
+            }
+          );
+        } else {
+          showModal(`<p class="text-red-400">Arquivo de backup inválido.</p>`);
+        }
+      } catch (error) {
+        showModal(
+          `<p class="text-red-400">Erro ao ler o arquivo de backup.</p>`
+        );
+        console.error(error);
+      }
+    };
+    reader.readAsText(file);
+    // Reset file input
+    event.target.value = "";
   });
 };
 

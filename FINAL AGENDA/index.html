@@ -34,7 +34,11 @@
         .btn-primary:hover { background-color: #67E8F9; }
         .btn-secondary { padding: 0.75rem 1.25rem; background-color: #475569; color: #E2E8F0; }
         .btn-secondary:hover { background-color: #64748B; }
-
+.payment-history-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
         /* Estilo da barra de rolagem customizada */
         .custom-scrollbar::-webkit-scrollbar {
             width: 8px;
@@ -197,6 +201,25 @@
             <div id="modalFooter" class="p-4 bg-slate-900/50 rounded-b-xl flex justify-end gap-4">
                 <button id="closeModalBtn" class="btn-secondary">Fechar</button>
             </div>
+        </div>
+    </div>
+
+    <div id="paymentModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 modal-backdrop hidden">
+        <div class="bg-slate-800 rounded-xl shadow-2xl w-full max-w-sm">
+            <form id="paymentForm">
+                <div class="p-6">
+                    <h3 class="text-2xl font-semibold mb-5 text-emerald-300">Adicionar Pagamento</h3>
+                    <input type="hidden" id="rentalIdForPayment">
+                    <div class="input-wrapper">
+                        <span class="input-icon text-base">R$</span>
+                        <input type="number" id="paymentAmount" placeholder="0.00" class="has-icon" required min="0.01" step="0.01">
+                    </div>
+                </div>
+                <div class="p-4 bg-slate-900/50 rounded-b-xl flex justify-end gap-4">
+                    <button type="button" id="cancelPaymentBtn" class="btn-secondary">Cancelar</button>
+                    <button type="submit" class="btn-primary">Salvar Pagamento</button>
+                </div>
+            </form>
         </div>
     </div>
     

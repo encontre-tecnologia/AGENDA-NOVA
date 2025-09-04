@@ -25,12 +25,14 @@ export const elements = {
   returnDateInput: document.getElementById("returnDate"),
   rentalInstallmentsInput: document.getElementById("rentalInstallments"),
   rentalDiscountInput: document.getElementById("rentalDiscount"),
+  rentalMachineFeeInput: document.getElementById("rentalMachineFee"),
   selectedItemsContainer: document.getElementById("selectedItemsContainer"),
   noItemsSelected: document.getElementById("noItemsSelected"),
   productSelectionContainer: document.getElementById(
     "productSelectionContainer"
   ),
   submitRentalBtn: document.getElementById("submitRentalBtn"),
+  rentalFormSummary: document.getElementById("rentalFormSummary"),
 
   // Rental History Elements
   rentalSearchInput: document.getElementById("rentalSearchInput"),
@@ -70,6 +72,7 @@ export const elements = {
     "editRentalInstallments"
   ),
   editRentalDiscountInput: document.getElementById("editRentalDiscount"),
+  editRentalMachineFeeInput: document.getElementById("editRentalMachineFee"),
   editSelectedItemsContainer: document.getElementById(
     "editSelectedItemsContainer"
   ),
@@ -78,10 +81,22 @@ export const elements = {
   ),
   cancelEditRentalBtn: document.getElementById("cancelEditRentalBtn"),
   saveRentalBtn: document.getElementById("saveRentalBtn"),
+  toggleEditProductSelectionBtn: document.getElementById(
+    "toggleEditProductSelectionBtn"
+  ),
+  editProductSelectionWrapper: document.getElementById(
+    "editProductSelectionWrapper"
+  ),
+  toggleEditProductIcon: document.getElementById("toggleEditProductIcon"),
 
   // Receipt Modal Elements
   receiptModal: document.getElementById("receiptModal"),
   receiptContent: document.getElementById("receiptContent"),
   printReceiptBtn: document.getElementById("printReceiptBtn"),
   closeReceiptModalBtn: document.getElementById("closeReceiptModalBtn"),
+
+  // Backup Elements
+  exportBackupBtn: document.getElementById("exportBackupBtn"),
+  importBackupBtn: document.getElementById("importBackupBtn"),
+  backupFileInput: document.getElementById("backupFileInput"),
 };

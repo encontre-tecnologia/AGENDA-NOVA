@@ -53,7 +53,10 @@ export const updateFinancialSummaries = () => {
       0
     );
 
-    const finalPrice = Math.max(0, subtotal - (rental.discount || 0));
+    const finalPrice = Math.max(
+      0,
+      subtotal - (rental.discount || 0) + (rental.machineFee || 0)
+    );
     const { totalInstallments = 1, paidInstallments = 0 } =
       rental.paymentInfo || {};
     const installmentValue =
@@ -265,7 +268,8 @@ export const renderRentalHistory = (searchTerm = "") => {
     );
 
     const discountAmount = rental.discount || 0;
-    const finalPrice = Math.max(0, subtotal - discountAmount);
+    const machineFee = rental.machineFee || 0;
+    const finalPrice = Math.max(0, subtotal - discountAmount + machineFee);
     const isFullyPaid =
       paidInstallments >= totalInstallments || finalPrice < 0.01;
     const statusBorderColor = isFullyPaid
@@ -282,7 +286,6 @@ export const renderRentalHistory = (searchTerm = "") => {
     let itemsHtml = visibleItems
       .map((id) => {
         const product = products.find((p) => p.id === id);
-        // ⭐ CORREÇÃO AQUI ⭐
         return product
           ? `
                 <div class="inline-flex items-center bg-slate-700 rounded-full px-3 py-1 text-sm font-medium text-slate-200 max-w-full">
@@ -381,4 +384,64 @@ export const renderRentalHistory = (searchTerm = "") => {
             </div>`;
     elements.rentalHistoryList.appendChild(li);
   });
+};
+
+export const updateRentalFormSummary = (selectedItems) => {
+  const {
+    rentalDateInput,
+    returnDateInput,
+    rentalDiscountInput,
+    rentalMachineFeeInput,
+    rentalFormSummary,
+  } = elements;
+
+  if (
+    !rentalDateInput.value ||
+    !returnDateInput.value ||
+    Object.keys(selectedItems).length === 0
+  ) {
+    rentalFormSummary.innerHTML = "";
+    return;
+  }
+
+  const totalDays = calculateDays(rentalDateInput.value, returnDateInput.value);
+  const subtotal = Object.entries(selectedItems).reduce(
+    (sum, [itemId, qty]) => {
+      const product = products.find((p) => p.id === itemId);
+      if (product) {
+        return sum + product.price * qty * totalDays;
+      }
+      return sum;
+    },
+    0
+  );
+
+  const discount = parseFloat(rentalDiscountInput.value) || 0;
+  const machineFee = parseFloat(rentalMachineFeeInput.value) || 0;
+  const total = subtotal - discount + machineFee;
+
+  rentalFormSummary.innerHTML = `
+        <div class="text-right space-y-1 text-slate-300">
+            <p class="text-sm">Subtotal: <span class="font-semibold">${formatCurrency(
+              subtotal
+            )}</span></p>
+            ${
+              discount > 0
+                ? `<p class="text-sm text-red-400">Desconto: <span class="font-semibold">-${formatCurrency(
+                    discount
+                  )}</span></p>`
+                : ""
+            }
+            ${
+              machineFee > 0
+                ? `<p class="text-sm text-sky-400">Juros/Taxas: <span class="font-semibold">+${formatCurrency(
+                    machineFee
+                  )}</span></p>`
+                : ""
+            }
+            <p class="text-xl font-bold text-white">Total: <span class="text-teal-400">${formatCurrency(
+              total
+            )}</span></p>
+        </div>
+    `;
 };

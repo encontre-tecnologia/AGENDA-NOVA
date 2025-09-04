@@ -338,6 +338,25 @@ const setupEventListeners = () => {
     const rental = rentals.find((r) => r.id === rentalId);
     if (!rental) return;
 
+    if (target.classList.contains("add-payment-btn")) {
+      elements.rentalIdForPaymentInput.value = rentalId;
+      elements.paymentModal.classList.remove("hidden");
+      elements.paymentAmountInput.focus();
+    }
+    if (target.classList.contains("delete-payment-btn")) {
+      const timestamp = parseInt(target.dataset.paymentTimestamp);
+      const paymentToDelete = rental.payments.find((p) => {
+        const pTimestamp =
+          p.date.seconds || Math.floor(p.date.getTime() / 1000);
+        return pTimestamp === timestamp;
+      });
+
+      if (paymentToDelete) {
+        showModal(`<p>Tem certeza que deseja apagar este pagamento?</p>`, () =>
+          db.deletePayment(rentalId, paymentToDelete)
+        );
+      }
+    }
     if (target.classList.contains("receipt-btn")) {
       generateReceipt(rental, products);
     }
@@ -372,6 +391,22 @@ const setupEventListeners = () => {
       }
       db.updateRentalPayment(rentalId, paidInstallments);
     }
+  });
+
+  elements.paymentForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const rentalId = elements.rentalIdForPaymentInput.value;
+    const amount = elements.paymentAmountInput.value;
+    if (rentalId && amount > 0) {
+      await db.addPayment(rentalId, amount);
+      elements.paymentModal.classList.add("hidden");
+      elements.paymentForm.reset();
+    }
+  });
+
+  elements.cancelPaymentBtn.addEventListener("click", () => {
+    elements.paymentModal.classList.add("hidden");
+    elements.paymentForm.reset();
   });
 
   elements.showHelpBtn.addEventListener("click", () =>
@@ -437,13 +472,10 @@ const setupEventListeners = () => {
             `<p class="text-amber-400">Atenção: Isso adicionará os dados do arquivo ao sistema. Dados existentes não serão apagados. Deseja continuar?</p>`,
             async () => {
               elements.loadingOverlay.classList.remove("hidden");
-              // Import products
               for (const product of importedData.products) {
-                // Remove 'id' if it exists, so Firestore creates a new one
                 const { id, ...productData } = product;
                 await db.addProduct(productData);
               }
-              // Import rentals
               for (const rental of importedData.rentals) {
                 const { id, ...rentalData } = rental;
                 await db.addRental(rentalData);
@@ -465,7 +497,6 @@ const setupEventListeners = () => {
       }
     };
     reader.readAsText(file);
-    // Reset file input
     event.target.value = "";
   });
 };

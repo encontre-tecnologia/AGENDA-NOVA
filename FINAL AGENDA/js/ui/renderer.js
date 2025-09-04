@@ -57,13 +57,13 @@ export const updateFinancialSummaries = () => {
       0,
       subtotal - (rental.discount || 0) + (rental.machineFee || 0)
     );
-    const { totalInstallments = 1, paidInstallments = 0 } =
-      rental.paymentInfo || {};
-    const installmentValue =
-      finalPrice > 0 ? finalPrice / totalInstallments : 0;
+    const totalPaid = (rental.payments || []).reduce(
+      (sum, p) => sum + p.amount,
+      0
+    );
 
-    totalRevenue += installmentValue * paidInstallments;
-    totalReceivable += finalPrice - installmentValue * paidInstallments;
+    totalRevenue += totalPaid;
+    totalReceivable += finalPrice - totalPaid;
   });
 
   elements.totalRevenueValue.textContent = formatCurrency(totalRevenue);
@@ -256,9 +256,6 @@ export const renderRentalHistory = (searchTerm = "") => {
   }
 
   filteredRentals.forEach((rental) => {
-    const { totalInstallments = 1, paidInstallments = 0 } =
-      rental.paymentInfo || {};
-
     const subtotal = Object.entries(rental.items).reduce(
       (sum, [itemId, qty]) => {
         const product = products.find((p) => p.id === itemId);
@@ -270,8 +267,19 @@ export const renderRentalHistory = (searchTerm = "") => {
     const discountAmount = rental.discount || 0;
     const machineFee = rental.machineFee || 0;
     const finalPrice = Math.max(0, subtotal - discountAmount + machineFee);
-    const isFullyPaid =
-      paidInstallments >= totalInstallments || finalPrice < 0.01;
+    const totalPaid = (rental.payments || []).reduce(
+      (sum, p) => sum + p.amount,
+      0
+    );
+    const remainingBalance = finalPrice - totalPaid;
+    const isFullyPaid = remainingBalance <= 0.01;
+
+    const { totalInstallments = 1 } = rental.paymentInfo || {};
+    const installmentValue =
+      finalPrice > 0 ? finalPrice / totalInstallments : 0;
+    const paidInstallments =
+      installmentValue > 0 ? Math.floor(totalPaid / installmentValue) : 0;
+
     const statusBorderColor = isFullyPaid
       ? "border-emerald-500/50"
       : "border-amber-500/50";
@@ -308,9 +316,34 @@ export const renderRentalHistory = (searchTerm = "") => {
       "pt-BR",
       { timeZone: "UTC" }
     );
-    const installmentValue =
-      finalPrice > 0 ? finalPrice / totalInstallments : 0;
-    const remainingBalance = finalPrice - installmentValue * paidInstallments;
+
+    let paymentsHtml = (rental.payments || [])
+      .map((p) => {
+        const date = p.date.seconds ? new Date(p.date.seconds * 1000) : p.date;
+        const timestamp = p.date.seconds || Math.floor(p.date.getTime() / 1000);
+
+        return `
+      <div class="text-xs text-slate-400 flex items-center gap-2">
+          <span>${date.toLocaleDateString("pt-BR")}</span>
+          <span class="font-semibold text-emerald-300">${formatCurrency(
+            p.amount
+          )}</span>
+          <button class="delete-payment-btn text-red-500 hover:text-red-400 p-1 rounded-full" data-id="${
+            rental.id
+          }" data-payment-timestamp="${timestamp}" title="Apagar Pagamento">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="pointer-events: none;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+          </button>
+      </div>
+    `;
+      })
+      .join("");
+    if (!paymentsHtml && totalInstallments > 1) {
+      paymentsHtml =
+        '<p class="text-xs text-slate-500">Nenhum pagamento avulso.</p>';
+    } else if (!paymentsHtml && totalInstallments === 1) {
+      paymentsHtml =
+        '<p class="text-xs text-slate-500">Nenhum pagamento registrado.</p>';
+    }
 
     let installmentCirclesHTML = Array.from(
       { length: totalInstallments },
@@ -318,18 +351,9 @@ export const renderRentalHistory = (searchTerm = "") => {
     )
       .map((i) => {
         const isPaid = i <= paidInstallments;
-        const isNext = i === paidInstallments + 1;
-        const canClick = isNext || i === paidInstallments;
-        const title = canClick
-          ? isNext
-            ? `Marcar parcela ${i} paga`
-            : `Desfazer pagamento ${i}`
-          : `Parcela ${i}`;
-        return `<button title="${title}" class="installment-circle-btn w-6 h-6 rounded-full transition-transform duration-200 ${
+        return `<div title="Parcela ${i}" class="w-6 h-6 rounded-full transition-colors duration-200 ${
           isPaid ? "bg-emerald-500" : "bg-slate-600"
-        } ${canClick ? "hover:scale-125" : "cursor-not-allowed"}" data-id="${
-          rental.id
-        }" data-installment-index="${i}"></button>`;
+        }"></div>`;
       })
       .join("");
 
@@ -357,30 +381,43 @@ export const renderRentalHistory = (searchTerm = "") => {
                 </div>
             </div>
             <div><div class="flex flex-wrap gap-2">${itemsHtml}</div></div>
-            <div class="border-t border-slate-700 pt-4 flex justify-between items-end gap-4">
-                <div>
-                    <p class="text-xs uppercase font-semibold text-slate-500 tracking-wider">Status do Pagamento</p>
-                    <div class="flex items-center gap-2 mt-2">${
-                      totalInstallments > 1
-                        ? installmentCirclesHTML
-                        : `<div class="flex items-center gap-2"><div class="w-4 h-4 rounded-full ${
-                            isFullyPaid ? "bg-emerald-500" : "bg-slate-600"
-                          }"></div><p class="text-sm ${
-                            isFullyPaid ? "text-emerald-300" : "text-slate-300"
-                          } font-medium">Pagamento único</p></div>`
-                    }</div>
-                </div>
-                <div class="text-right">
-                    <p class="text-xs uppercase font-semibold text-slate-500 tracking-wider">Valor Pendente</p>
-                    <p class="text-3xl font-bold ${
-                      isFullyPaid ? "text-emerald-400" : "text-amber-400"
-                    }">${formatCurrency(
+            <div class="border-t border-slate-700 pt-4 flex flex-col gap-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
+                    <div>
+                        <p class="text-xs uppercase font-semibold text-slate-500 tracking-wider mb-4">Histórico de Pagamentos</p>
+                        <div class="space-y-1">${paymentsHtml}</div>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-xs uppercase font-semibold text-slate-500 tracking-wider">Valor Pendente</p>
+                        <p class="text-3xl font-bold ${
+                          isFullyPaid ? "text-emerald-400" : "text-amber-400"
+                        }">${formatCurrency(
       remainingBalance > 0.005 ? remainingBalance : 0
     )}</p>
-                    <p class="text-sm text-slate-400">Total da locação: ${formatCurrency(
-                      finalPrice
-                    )}</p>
+                        <p class="text-sm text-slate-400">Total: ${formatCurrency(
+                          finalPrice
+                        )} / Pago: ${formatCurrency(totalPaid)}</p>
+                    </div>
                 </div>
+                ${
+                  totalInstallments > 1
+                    ? `
+                <div>
+                    <p class="text-xs uppercase font-semibold text-slate-500 tracking-wider">Progresso das Parcelas</p>
+                    <div class="flex items-center gap-2 mt-2">${installmentCirclesHTML}</div>
+                </div>
+                `
+                    : ""
+                }
+                ${
+                  !isFullyPaid
+                    ? `
+                <div class="mt-2">
+                    <button class="add-payment-btn w-full btn-primary" data-id="${rental.id}">Adicionar Pagamento</button>
+                </div>
+                `
+                    : ""
+                }
             </div>`;
     elements.rentalHistoryList.appendChild(li);
   });

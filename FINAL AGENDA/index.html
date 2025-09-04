@@ -76,6 +76,16 @@
                 </div>
                 
                 <div class="flex items-center gap-4">
+                    <div class="flex items-center gap-2">
+                        <button id="exportBackupBtn" class="p-2.5 rounded-full bg-slate-800/70 hover:bg-green-500/20 text-green-300 transition-colors" title="Exportar Backup">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
+                        </button>
+                        <button id="importBackupBtn" class="p-2.5 rounded-full bg-slate-800/70 hover:bg-orange-500/20 text-orange-300 transition-colors" title="Importar Backup">
+                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                        </button>
+                        <input type="file" id="backupFileInput" class="hidden" accept=".json">
+                    </div>
+
                     <div id="authContainer" class="hidden items-center gap-3">
                         <div class="relative group">
                             <button id="userProfileButton" class="flex items-center gap-3 bg-slate-800/70 hover:bg-slate-800 transition-colors px-3 py-2 rounded-full shadow-md">
@@ -162,10 +172,17 @@
                                 <input type="number" id="rentalDiscount" placeholder="0.00" class="has-icon" min="0" step="0.01" value="0">
                             </div>
                         </div>
+                         <div class="md:col-span-2">
+                            <label for="rentalMachineFee" class="text-sm font-medium mb-1 text-slate-300 block">Juros/Taxas (R$)</label>
+                            <div class="input-wrapper">
+                                <span class="input-icon text-base">R$</span>
+                                <input type="number" id="rentalMachineFee" placeholder="0.00" class="has-icon" min="0" step="0.01" value="0">
+                            </div>
+                        </div>
                     </div>
                     <hr class="border-slate-600"><div><h3 class="text-lg font-semibold text-slate-200 mb-2">Itens da Locação</h3><div id="selectedItemsContainer" class="space-y-3"><div id="noItemsSelected" class="flex flex-col items-center justify-center p-8 border-2 border-dashed border-slate-600 rounded-lg text-slate-500"><svg class="w-12 h-12" stroke-width="1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9.75l-9-5.25m9 5.25l9-5.25" /></svg><p class="mt-4 font-semibold text-slate-400">Nenhum item</p><p class="mt-1 text-sm">Selecione produtos abaixo para começar.</p></div></div></div><div><h3 class="text-lg font-semibold text-slate-200 mb-2">Adicionar Produto</h3><div id="productSelectionContainer" class="grid sm:grid-cols-2 md:grid-cols-3 gap-3"></div></div>
                     
-                    
+                    <div id="rentalFormSummary" class="mt-4 pt-4 border-t border-slate-700 space-y-2"></div>
 
                     <button type="submit" id="submitRentalBtn" class="w-full text-slate-900 bg-sky-400 hover:bg-sky-500 h-14 mt-4">Confirmar Locação</button>
                 </form></div>
@@ -212,7 +229,7 @@
           <h3 class="text-2xl font-bold text-sky-300">Editar Locação</h3>
           <p class="text-sm text-slate-400">Altere os dados da locação e o estoque será recalculado.</p>
         </div>
-        <div class="flex-grow p-5 overflow-y-auto">
+        <div class="flex-grow p-5 overflow-y-auto custom-scrollbar">
           <form id="editRentalForm" class="space-y-6">
             <input type="hidden" id="editRentalId">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -257,14 +274,26 @@
                         <input type="number" id="editRentalDiscount" placeholder="0.00" class="has-icon input-default" min="0" step="0.01" value="0">
                     </div>
                 </div>
+                <div class="md:col-span-2">
+                    <label for="editRentalMachineFee" class="label-default">Juros/Taxas (R$)</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon text-base">R$</span>
+                        <input type="number" id="editRentalMachineFee" placeholder="0.00" class="has-icon input-default" min="0" step="0.01" value="0">
+                    </div>
+                </div>
             </div>
             <div class="space-y-4">
               <label class="label-default">Itens da Locação</label>
               <div id="editSelectedItemsContainer" class="space-y-3"></div>
-              <details class="bg-slate-700 rounded-lg">
-                  <summary class="p-3 cursor-pointer font-semibold text-teal-300">Adicionar mais produtos</summary>
-                  <div id="editProductSelectionContainer" class="p-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3"></div>
-              </details>
+               <div class="pt-4 border-t border-slate-700">
+                  <button type="button" id="toggleEditProductSelectionBtn" class="w-full text-left p-3 font-semibold text-teal-300 bg-slate-700 hover:bg-slate-600 rounded-lg flex justify-between items-center">
+                      <span>Adicionar/Remover Produtos</span>
+                      <svg id="toggleEditProductIcon" class="w-5 h-5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                  </button>
+                  <div id="editProductSelectionWrapper" class="hidden mt-3 p-4 bg-slate-700/50 rounded-lg">
+                      <div id="editProductSelectionContainer" class="grid grid-cols-2 sm:grid-cols-3 gap-3"></div>
+                  </div>
+              </div>
             </div>
           </form>
         </div>

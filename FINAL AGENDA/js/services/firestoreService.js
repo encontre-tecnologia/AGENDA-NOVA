@@ -3,7 +3,6 @@
 const db = firebase.firestore();
 
 // --- Products ---
-// Não precisa mais do UID, acessa a coleção principal "products"
 export const onProductsChange = (callback) => {
   return db.collection("products").orderBy("name").onSnapshot(callback);
 };
@@ -18,7 +17,6 @@ export const deleteProduct = (id) => {
 };
 
 // --- Rentals ---
-// Não precisa mais do UID, acessa a coleção principal "rentals"
 export const onRentalsChange = (callback) => {
   return db.collection("rentals").orderBy("date", "desc").onSnapshot(callback);
 };

@@ -47,12 +47,11 @@ export const updateFinancialSummaries = () => {
   let totalReceivable = 0;
 
   rentals.forEach((rental) => {
-    // Lógica principal corrigida aqui
-    const totalDays = calculateDays(rental.date, rental.returnDate);
+    // CORREÇÃO: Cálculo agora é por locação, não por dia.
     const subtotal = Object.entries(rental.items).reduce(
       (sum, [itemId, qty]) => {
         const product = products.find((p) => p.id === itemId);
-        return sum + (product ? product.price * qty * totalDays : 0);
+        return sum + (product ? product.price * qty : 0);
       },
       0
     );
@@ -111,7 +110,7 @@ export const renderProductList = () => {
                         }</strong></span>
                         <span>Preço: <strong class="text-white">${formatCurrency(
                           product.price
-                        )}/dia</strong></span>
+                        )}</strong></span>
                     </p>
                 </div>
             </div>
@@ -224,9 +223,7 @@ export const renderProductSelection = (
             }
             <p class="font-bold text-slate-100 truncate">${p.name}</p>
             <div class="flex justify-between items-center mt-2 text-xs">
-                <span class="text-slate-400">${formatCurrency(
-                  p.price
-                )}/dia</span>
+                <span class="text-slate-400">${formatCurrency(p.price)}</span>
                 <span class="font-semibold px-2 py-1 rounded-full ${
                   available > 0
                     ? "bg-emerald-500/20 text-emerald-300"
@@ -308,12 +305,11 @@ export const renderRentalHistory = (searchTerm = "") => {
   }
 
   filteredRentals.forEach((rental) => {
-    // Garantindo que o cálculo aqui também está correto
-    const totalDays = calculateDays(rental.date, rental.returnDate);
+    // CORREÇÃO: Cálculo agora é por locação, não por dia.
     const subtotal = Object.entries(rental.items).reduce(
       (sum, [itemId, qty]) => {
         const product = products.find((p) => p.id === itemId);
-        return sum + (product ? product.price * qty * totalDays : 0);
+        return sum + (product ? product.price * qty : 0);
       },
       0
     );
@@ -495,12 +491,12 @@ export const updateRentalFormSummary = (selectedItems) => {
     return;
   }
 
-  const totalDays = calculateDays(rentalDateInput.value, returnDateInput.value);
+  // CORREÇÃO: Cálculo agora é por locação, não por dia.
   const subtotal = Object.entries(selectedItems).reduce(
     (sum, [itemId, qty]) => {
       const product = products.find((p) => p.id === itemId);
       if (product) {
-        return sum + product.price * qty * totalDays;
+        return sum + product.price * qty;
       }
       return sum;
     },

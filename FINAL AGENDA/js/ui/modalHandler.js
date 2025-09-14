@@ -82,7 +82,8 @@ const createReceiptHTML = (rental, products, theme = "light") => {
   Object.entries(rental.items).forEach(([itemId, quantity]) => {
     const product = products.find((p) => p.id === itemId);
     if (product) {
-      const itemPrice = product.price * quantity * totalDays;
+      // CORREÇÃO: Cálculo agora é por locação, não por dia.
+      const itemPrice = product.price * quantity;
       subtotal += itemPrice;
       itemsTableRows += `
                 <tr class="border-b ${colors.tableRowBorder} last:border-b-0">
@@ -159,7 +160,7 @@ const createReceiptHTML = (rental, products, theme = "light") => {
   }">
                             <th class="py-2 pr-4 font-semibold">Item</th>
                             <th class="py-2 px-4 text-center font-semibold">Qtd.</th>
-                            <th class="py-2 px-4 text-right font-semibold">Preço/Dia</th>
+                            <th class="py-2 px-4 text-right font-semibold">Preço Unit.</th>
                             <th class="py-2 pl-4 text-right font-semibold">Subtotal</th>
                         </tr>
                     </thead>
@@ -226,7 +227,7 @@ elements.printReceiptBtn.addEventListener("click", () => {
                 <link rel="preconnect" href="https://fonts.googleapis.com">
                 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
                 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-                <script src="https://cdn.tailwindcss.com"></script>
+                <script src="https://cdn.tailwindcss.com/"></script>
                 <style>
                     body { 
                         font-family: 'Poppins', sans-serif; 

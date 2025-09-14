@@ -17,6 +17,12 @@ export const elements = {
   addProductBtn: document.getElementById("addProductBtn"),
   productList: document.getElementById("productList"),
 
+  // Expense Form Elements
+  expenseForm: document.getElementById("expenseForm"),
+  expenseDescriptionInput: document.getElementById("expenseDescription"),
+  expenseAmountInput: document.getElementById("expenseAmount"),
+  expenseList: document.getElementById("expenseList"),
+
   // Rental Form Elements
   rentalForm: document.getElementById("rentalForm"),
   clientNameInput: document.getElementById("clientName"),
@@ -39,6 +45,8 @@ export const elements = {
   rentalHistoryList: document.getElementById("rentalHistoryList"),
   totalRevenueValue: document.getElementById("totalRevenueValue"),
   totalReceivableValue: document.getElementById("totalReceivableValue"),
+  totalExpensesValue: document.getElementById("totalExpensesValue"),
+  netProfitValue: document.getElementById("netProfitValue"),
 
   // Generic Modal Elements
   modal: document.getElementById("modal"),

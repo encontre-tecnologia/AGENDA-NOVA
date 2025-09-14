@@ -58,3 +58,17 @@ export const updateRentalPayment = (id, paidInstallments) => {
     "paymentInfo.paidInstallments": paidInstallments,
   });
 };
+
+// --- Expenses ---
+export const onExpensesChange = (callback) => {
+  return db.collection("expenses").orderBy("date", "desc").onSnapshot(callback);
+};
+export const addExpense = (expense) => {
+  return db.collection("expenses").add({
+    ...expense,
+    date: firebase.firestore.FieldValue.serverTimestamp(),
+  });
+};
+export const deleteExpense = (id) => {
+  return db.collection("expenses").doc(id).delete();
+};

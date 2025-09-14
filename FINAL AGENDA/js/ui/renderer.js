@@ -3,10 +3,12 @@ import { formatCurrency, calculateDays } from "./utils.js";
 
 let products = [];
 let rentals = [];
+let expenses = [];
 
-export const setRendererData = (newProducts, newRentals) => {
+export const setRendererData = (newProducts, newRentals, newExpenses) => {
   products = newProducts;
   rentals = newRentals;
+  expenses = newExpenses;
 };
 
 const getAvailableStock = (
@@ -45,10 +47,12 @@ export const updateFinancialSummaries = () => {
   let totalReceivable = 0;
 
   rentals.forEach((rental) => {
+    // Lógica principal corrigida aqui
+    const totalDays = calculateDays(rental.date, rental.returnDate);
     const subtotal = Object.entries(rental.items).reduce(
       (sum, [itemId, qty]) => {
         const product = products.find((p) => p.id === itemId);
-        return sum + (product ? product.price * qty : 0);
+        return sum + (product ? product.price * qty * totalDays : 0);
       },
       0
     );
@@ -66,10 +70,15 @@ export const updateFinancialSummaries = () => {
     totalReceivable += finalPrice - totalPaid;
   });
 
+  const totalExpenses = expenses.reduce((sum, e) => sum + e.amount, 0);
+  const netProfit = totalRevenue - totalExpenses;
+
   elements.totalRevenueValue.textContent = formatCurrency(totalRevenue);
   elements.totalReceivableValue.textContent = formatCurrency(
     totalReceivable > 0.005 ? totalReceivable : 0
   );
+  elements.totalExpensesValue.textContent = formatCurrency(totalExpenses);
+  elements.netProfitValue.textContent = formatCurrency(netProfit);
 };
 
 export const renderProductList = () => {
@@ -120,6 +129,49 @@ export const renderProductList = () => {
             </div>
         `;
     elements.productList.appendChild(productItem);
+  });
+};
+
+export const renderExpenseList = () => {
+  elements.expenseList.innerHTML = "";
+  if (expenses.length === 0) {
+    elements.expenseList.innerHTML = `
+            <li class="p-4 text-center text-slate-500 bg-slate-700 rounded-lg">
+                Nenhuma despesa cadastrada.
+            </li>
+        `;
+    return;
+  }
+
+  expenses.forEach((expense) => {
+    const expenseItem = document.createElement("li");
+    expenseItem.className =
+      "flex items-center justify-between p-3 bg-slate-700 rounded-lg shadow-sm";
+    expenseItem.innerHTML = `
+            <div class="flex items-center gap-3 w-full min-w-0">
+                <span class="flex-shrink-0 w-8 h-8 flex items-center justify-center bg-red-500/20 text-red-300 rounded-full">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path></svg>
+                </span>
+                <div class="flex-grow min-w-0">
+                    <p class="font-semibold text-slate-200 truncate" title="${
+                      expense.description
+                    }">${expense.description}</p>
+                    <p class="text-xs text-slate-400">
+                        <span>Valor: <strong class="text-white">${formatCurrency(
+                          expense.amount
+                        )}</strong></span>
+                    </p>
+                </div>
+            </div>
+            <div class="flex-shrink-0 flex items-center gap-2">
+                <button class="delete-expense-btn p-2 rounded-full hover:bg-red-500/20 text-red-400" data-id="${
+                  expense.id
+                }" title="Excluir Despesa">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="pointer-events: none;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                </button>
+            </div>
+        `;
+    elements.expenseList.appendChild(expenseItem);
   });
 };
 
@@ -256,10 +308,12 @@ export const renderRentalHistory = (searchTerm = "") => {
   }
 
   filteredRentals.forEach((rental) => {
+    // Garantindo que o cálculo aqui também está correto
+    const totalDays = calculateDays(rental.date, rental.returnDate);
     const subtotal = Object.entries(rental.items).reduce(
       (sum, [itemId, qty]) => {
         const product = products.find((p) => p.id === itemId);
-        return sum + (product ? product.price * qty : 0);
+        return sum + (product ? product.price * qty * totalDays : 0);
       },
       0
     );

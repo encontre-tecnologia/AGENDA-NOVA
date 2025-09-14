@@ -1,0 +1,559 @@
+{
+  "products": [
+    {
+      "id": "JgxQH447OlfziiY0K540",
+      "quantity": 5,
+      "price": 9.5,
+      "name": "ACENDEDOR RECHAUD"
+    },
+    {
+      "id": "XwoOV23vF4pwZ70QZkeM",
+      "name": "AREA KIDS",
+      "quantity": 1,
+      "price": 130
+    },
+    {
+      "id": "HYfgyEZ1eUkqeVkyKZkN",
+      "name": "CADEIRA AVULSA BRANCA",
+      "price": 3,
+      "quantity": 40
+    },
+    {
+      "id": "P7IoJQTCtM8dyYSFcaik",
+      "quantity": 1,
+      "name": "CAIXA TÉRMICA 300 LITROS ",
+      "price": 60
+    },
+    {
+      "id": "g8E9VhBxeytttwdBCIFy",
+      "name": "CAMA ELÁSTICA 2,44 MT",
+      "price": 170,
+      "quantity": 1
+    },
+    {
+      "id": "dWPZLxg2SznVaDHgY32l",
+      "quantity": 2,
+      "name": "CAMA ELÁSTICA 3,66 MT",
+      "price": 170
+    },
+    {
+      "id": "XBdg9qb0SLYd9pc6BpN6",
+      "quantity": 1,
+      "name": "CANHÃO DE ESPUMA",
+      "price": 200
+    },
+    {
+      "id": "ag3jx8B1FSgPeCOzJV55",
+      "quantity": 1,
+      "name": "CARRINHO DE CACHORRO QUENTE",
+      "price": 300
+    },
+    {
+      "id": "kt1QIft0JTywdilM34Vn",
+      "name": "CARVÃO DE 3 KG",
+      "quantity": 4,
+      "price": 20
+    },
+    {
+      "id": "a2LIYqN02562bLXHRz0f",
+      "quantity": 4,
+      "name": "CARVÃO DE 7 KG",
+      "price": 41
+    },
+    {
+      "id": "GKB8v87Dv4hiYKiGnqbJ",
+      "name": "CHÁCARA SANTO ANTÔNIO",
+      "quantity": 1,
+      "price": 4500
+    },
+    {
+      "id": "uZHkSpiZwvVOFkd5bBCz",
+      "name": "CHÁCARA SANTO ANTÔNIO",
+      "quantity": 1,
+      "price": 950
+    },
+    {
+      "id": "vjMEpnyaPlATgiTtlsNd",
+      "price": 1000,
+      "name": "CHÁCARA SANTO ANTÔNIO",
+      "quantity": 1
+    },
+    {
+      "id": "ZmVMsvyBh77mqs1kV5go",
+      "name": "CHÁCARA SÃO PEDRO",
+      "price": 900,
+      "quantity": 1
+    },
+    {
+      "id": "IZgTUIBgpfZ8drQr2hBb",
+      "quantity": 1,
+      "price": 150,
+      "name": "FREEZER HORIZONTAL"
+    },
+    {
+      "id": "dpEMGqEWM6S9vYF7jKWk",
+      "price": 500,
+      "name": "FUTEBOL DE SABÃO",
+      "quantity": 1
+    },
+    {
+      "id": "ysnijxALIzcxEBaBd1z8",
+      "name": "GAS",
+      "quantity": 2,
+      "price": 30
+    },
+    {
+      "id": "TVI2QlwIMFiCrQZXD7Gz",
+      "price": 11,
+      "quantity": 114,
+      "name": "JOGO DE MESA BRANCA"
+    },
+    {
+      "id": "K813w25oVWHqyCVoMmK3",
+      "quantity": 25,
+      "name": "JOGO DE MESA CINZA",
+      "price": 10
+    },
+    {
+      "id": "hCbOFyewjON7LW2hevol",
+      "quantity": 114,
+      "name": "JOGO DE MESA COM 4 CADEIRAS BRANCAS",
+      "price": 10
+    },
+    {
+      "id": "tuw3UhDPggBjlQQWr5LE",
+      "price": 60,
+      "quantity": 1,
+      "name": "MAQUINA DE BOLHAS DE SABÃO"
+    },
+    {
+      "id": "HK9OTRHyKCRHzsVkkVn3",
+      "price": 7,
+      "name": "MESA BRANCA AVULSA",
+      "quantity": 30
+    },
+    {
+      "id": "jadDS22C49AewTwJp5JU",
+      "name": "PIPOCA E ALGODÃO DOCE",
+      "quantity": 1,
+      "price": 300
+    },
+    {
+      "id": "GFQoVfuJE9b7nGjevi3s",
+      "name": "PISCINA DE BOLINHAS INFÁVEL",
+      "quantity": 1,
+      "price": 200
+    },
+    {
+      "id": "ncIZglWAIAuCrcI31BiM",
+      "price": 15,
+      "name": "PRANCHÃO 2,3O MT",
+      "quantity": 1
+    },
+    {
+      "id": "QkYv5vZvILWmJVZse58I",
+      "name": "RECHAUD DUPLO 9 LITROS",
+      "quantity": 2,
+      "price": 37
+    },
+    {
+      "id": "TmNbC4NLrmwLjVLdMAMG",
+      "price": 37,
+      "quantity": 3,
+      "name": "RECHAUD TRIPLO 9 LITROS "
+    },
+    {
+      "id": "LRhKS5jMLY6tAAADwwmG",
+      "quantity": 10,
+      "price": 7,
+      "name": "TAMPÃO MESA 1,35 MT"
+    },
+    {
+      "id": "IEUz3y7ZdjSLzbRSU416",
+      "name": "TAXA DE DESLOCAMENTO",
+      "quantity": 1,
+      "price": 70
+    },
+    {
+      "id": "vyt1m3xoZwk8Z0Oxn6yR",
+      "quantity": 1,
+      "name": "TAXA DESLOCAMENTO",
+      "price": 10
+    },
+    {
+      "id": "LFYM5H91t44uyU9tw56t",
+      "name": "TENDA 3X3",
+      "quantity": 1,
+      "price": 150
+    },
+    {
+      "id": "AuIHjlXJeqlhbOlCU4Pi",
+      "name": "TOALHA 1,50 MT",
+      "quantity": 35,
+      "price": 6
+    },
+    {
+      "id": "iRA5fz8SG0AEi9e3naO2",
+      "quantity": 1,
+      "price": 9,
+      "name": "TOALHA REDONDA 3 METROS"
+    },
+    {
+      "id": "6R0fCC6IPzAAWbRH1eBe",
+      "name": "TOBOGÃ PREMIUM",
+      "quantity": 1,
+      "price": 350
+    }
+  ],
+  "rentals": [
+    {
+      "id": "ojr3oR0JGw7I8musOnbl",
+      "paymentInfo": {
+        "totalInstallments": 1,
+        "paidInstallments": 0
+      },
+      "discount": 0,
+      "items": {
+        "TVI2QlwIMFiCrQZXD7Gz": 43
+      },
+      "address": "CHÁCARA VIP CASTLE ARACÊ",
+      "date": "2025-12-20",
+      "returnDate": "2025-12-20",
+      "createdAt": {
+        "seconds": 1756770124,
+        "nanoseconds": 642000000
+      },
+      "client": "FATIMA",
+      "payments": [
+        {
+          "date": {
+            "seconds": 1756945068,
+            "nanoseconds": 644000000
+          },
+          "amount": 2
+        }
+      ]
+    },
+    {
+      "id": "4d4vTbptuXbexb1BXrRu",
+      "items": {
+        "hCbOFyewjON7LW2hevol": 10,
+        "TmNbC4NLrmwLjVLdMAMG": 1,
+        "IEUz3y7ZdjSLzbRSU416": 1,
+        "QkYv5vZvILWmJVZse58I": 1
+      },
+      "paymentInfo": {
+        "paidInstallments": 0,
+        "totalInstallments": 1
+      },
+      "discount": 0,
+      "date": "2025-12-20",
+      "createdAt": {
+        "seconds": 1756769675,
+        "nanoseconds": 802000000
+      },
+      "returnDate": "2025-12-20",
+      "client": "jessica",
+      "address": "Agua vermelha"
+    },
+    {
+      "id": "DDq8Bc9Wq6hOf6Q8RmK9",
+      "createdAt": {
+        "seconds": 1756768009,
+        "nanoseconds": 334000000
+      },
+      "paymentInfo": {
+        "paidInstallments": 0,
+        "totalInstallments": 1
+      },
+      "items": {
+        "QkYv5vZvILWmJVZse58I": 1,
+        "jadDS22C49AewTwJp5JU": 1,
+        "TVI2QlwIMFiCrQZXD7Gz": 16,
+        "6R0fCC6IPzAAWbRH1eBe": 1,
+        "dWPZLxg2SznVaDHgY32l": 1,
+        "GFQoVfuJE9b7nGjevi3s": 1
+      },
+      "returnDate": "2025-12-13",
+      "discount": 217,
+      "date": "2025-12-13",
+      "client": "FERNANDA",
+      "address": "ARACE"
+    },
+    {
+      "id": "9l8Q1rwAUfvydJdoT3ch",
+      "address": "CHÁCARA VALE DO SOL - ARACÊ DE SANTO ANTÔNIO",
+      "client": "ISABELLIE",
+      "items": {
+        "XwoOV23vF4pwZ70QZkeM": 1,
+        "QkYv5vZvILWmJVZse58I": 1
+      },
+      "paymentInfo": {
+        "totalInstallments": 1,
+        "paidInstallments": 0
+      },
+      "createdAt": {
+        "seconds": 1756852124,
+        "nanoseconds": 287000000
+      },
+      "discount": 70,
+      "returnDate": "2025-10-11",
+      "date": "2025-10-11"
+    },
+    {
+      "id": "jZdbsQCZd4DLcKL7kAMi",
+      "discount": 0,
+      "client": "MORENA",
+      "paymentInfo": {
+        "paidInstallments": 0,
+        "totalInstallments": 1
+      },
+      "createdAt": {
+        "seconds": 1756853209,
+        "nanoseconds": 431000000
+      },
+      "date": "2025-09-28",
+      "returnDate": "2025-09-28",
+      "items": {
+        "XBdg9qb0SLYd9pc6BpN6": 1,
+        "LRhKS5jMLY6tAAADwwmG": 10,
+        "dpEMGqEWM6S9vYF7jKWk": 1
+      },
+      "address": "ARACÊ DE SANTO ANTÔNIO"
+    },
+    {
+      "id": "riGeJUa0dYUVLJZCs2rr",
+      "discount": 0,
+      "client": "Vera Chacara dos Machado",
+      "paymentInfo": {
+        "paidInstallments": 0,
+        "totalInstallments": 1
+      },
+      "createdAt": {
+        "seconds": 1756852939,
+        "nanoseconds": 308000000
+      },
+      "returnDate": "2025-09-27",
+      "address": "Aracê de Santo Antônio",
+      "date": "2025-09-27",
+      "items": {
+        "TVI2QlwIMFiCrQZXD7Gz": 10,
+        "QkYv5vZvILWmJVZse58I": 1,
+        "TmNbC4NLrmwLjVLdMAMG": 1
+      }
+    },
+    {
+      "id": "qxc6VZXon0CBPm2rpmIA",
+      "date": "2025-09-20",
+      "client": "HULI RAISSA CASSIMIRO",
+      "returnDate": "2025-09-20",
+      "items": {
+        "jadDS22C49AewTwJp5JU": 1,
+        "TVI2QlwIMFiCrQZXD7Gz": 15
+      },
+      "paymentInfo": {
+        "totalInstallments": 1,
+        "paidInstallments": 0
+      },
+      "address": "ARCOVILE",
+      "createdAt": {
+        "seconds": 1756852478,
+        "nanoseconds": 576000000
+      },
+      "discount": 0
+    },
+    {
+      "id": "UstIr4Bx4TFpib2JdXEX",
+      "items": {
+        "XwoOV23vF4pwZ70QZkeM": 1,
+        "g8E9VhBxeytttwdBCIFy": 1,
+        "ZmVMsvyBh77mqs1kV5go": 1,
+        "TmNbC4NLrmwLjVLdMAMG": 1,
+        "jadDS22C49AewTwJp5JU": 1,
+        "QkYv5vZvILWmJVZse58I": 1,
+        "ysnijxALIzcxEBaBd1z8": 1,
+        "6R0fCC6IPzAAWbRH1eBe": 1
+      },
+      "totalPrice": 1954,
+      "paymentInfo": {
+        "totalInstallments": 1,
+        "paidInstallments": 0
+      },
+      "returnDate": "2025-09-21",
+      "address": "RUA VICENTE MASSUCIO NETO",
+      "client": "ALLAN",
+      "date": "2025-09-19",
+      "discount": 143
+    },
+    {
+      "id": "3IE4nJzmkooZMCDEglg7",
+      "discount": 0,
+      "address": "CHÁCARA SOLAR DAS ARAUCÁRIAS - ARACÊ DE SANTOL ANTÔNIO",
+      "items": {
+        "TVI2QlwIMFiCrQZXD7Gz": 25,
+        "vyt1m3xoZwk8Z0Oxn6yR": 1,
+        "AuIHjlXJeqlhbOlCU4Pi": 25
+      },
+      "returnDate": "2025-09-14",
+      "paymentInfo": {
+        "paidInstallments": 0,
+        "totalInstallments": 1
+      },
+      "createdAt": {
+        "seconds": 1756851881,
+        "nanoseconds": 276000000
+      },
+      "date": "2025-09-14",
+      "client": "MAJU"
+    },
+    {
+      "id": "EEDkwCdk3SpeH3DK2QGC",
+      "totalPrice": 1550,
+      "client": "RODRIGO",
+      "discount": 200,
+      "returnDate": "2025-09-13",
+      "items": {
+        "vjMEpnyaPlATgiTtlsNd": 1,
+        "ysnijxALIzcxEBaBd1z8": 1,
+        "6R0fCC6IPzAAWbRH1eBe": 1,
+        "dWPZLxg2SznVaDHgY32l": 1,
+        "TVI2QlwIMFiCrQZXD7Gz": 15
+      },
+      "paymentInfo": {
+        "paidInstallments": 0,
+        "totalInstallments": 1
+      },
+      "address": "RUA OVANDO SALVADOR BAIO 02B - ARACÊ DE SANTO ANTÔNIO",
+      "date": "2025-09-13"
+    },
+    {
+      "id": "DWIQyopgHCjoYQnbVqax",
+      "address": "RUA VICENTE MASSUCIO NETO 2/2 ",
+      "totalPrice": 900,
+      "returnDate": "2025-09-13",
+      "paymentInfo": {
+        "totalInstallments": 1,
+        "paidInstallments": 0
+      },
+      "items": {
+        "ZmVMsvyBh77mqs1kV5go": 1
+      },
+      "client": "CAMILA",
+      "date": "2025-09-13"
+    },
+    {
+      "id": "yaibS2OAyt9EUobwIesm",
+      "items": {
+        "hCbOFyewjON7LW2hevol": 4,
+        "ZmVMsvyBh77mqs1kV5go": 1,
+        "ysnijxALIzcxEBaBd1z8": 1
+      },
+      "paymentInfo": {
+        "paidInstallments": 0,
+        "totalInstallments": 1
+      },
+      "returnDate": "2025-09-06",
+      "date": "2025-09-06",
+      "totalPrice": 970,
+      "client": "SELMA",
+      "address": "CHÁCARA SÃO PEDRO"
+    },
+    {
+      "id": "xBMAm2Vpfc1ChgoPB5r8",
+      "address": "RUA OVANDO SALVADOR BAIO 02B - ARACÊ DE SANTO ANTÔNIO",
+      "returnDate": "2025-09-06",
+      "items": {
+        "TmNbC4NLrmwLjVLdMAMG": 1,
+        "QkYv5vZvILWmJVZse58I": 1,
+        "ysnijxALIzcxEBaBd1z8": 1,
+        "TVI2QlwIMFiCrQZXD7Gz": 15,
+        "uZHkSpiZwvVOFkd5bBCz": 1,
+        "dWPZLxg2SznVaDHgY32l": 1,
+        "P7IoJQTCtM8dyYSFcaik": 1
+      },
+      "client": "THIAGO ( CH. SANTO ANTÔNIO)",
+      "totalPrice": 1434,
+      "paymentInfo": {
+        "totalInstallments": 1,
+        "paidInstallments": 0
+      },
+      "date": "2025-09-06"
+    },
+    {
+      "id": "bdXUH9zCnDjaIV1rbIDF",
+      "totalPrice": 200,
+      "paymentInfo": {
+        "totalInstallments": 1,
+        "paidInstallments": 0
+      },
+      "discount": 50,
+      "items": {
+        "LRhKS5jMLY6tAAADwwmG": 10,
+        "hCbOFyewjON7LW2hevol": 13,
+        "IZgTUIBgpfZ8drQr2hBb": 1
+      },
+      "date": "2025-09-06",
+      "returnDate": "2025-09-06",
+      "client": "TAYNARA",
+      "address": "CHÁCARA PIOVESAN ARACÊ"
+    },
+    {
+      "id": "ZDSfeNrPB7BvWzVvn4XC",
+      "date": "2025-09-06",
+      "returnDate": "2025-09-06",
+      "discount": 0,
+      "client": "DIONIZIO",
+      "createdAt": {
+        "seconds": 1756851430,
+        "nanoseconds": 341000000
+      },
+      "paymentInfo": {
+        "paidInstallments": 0,
+        "totalInstallments": 1
+      },
+      "items": {
+        "TmNbC4NLrmwLjVLdMAMG": 1,
+        "JgxQH447OlfziiY0K540": 1,
+        "hCbOFyewjON7LW2hevol": 10
+      },
+      "address": "CHÁCARA DA HORTA FABIO"
+    },
+    {
+      "id": "PZFLjFhEC2M9tnRLFa5b",
+      "address": "RUA VICENTE MASSUCIO NETO ",
+      "client": "DAIANA",
+      "date": "2025-09-06",
+      "items": {
+        "a2LIYqN02562bLXHRz0f": 1
+      },
+      "returnDate": "2025-09-06",
+      "paymentInfo": {
+        "totalInstallments": 1,
+        "paidInstallments": 0
+      },
+      "totalPrice": 41
+    },
+    {
+      "id": "8Z4uMmkAjB4ZUp2LiiEQ",
+      "discount": 0,
+      "items": {
+        "QkYv5vZvILWmJVZse58I": 1,
+        "TVI2QlwIMFiCrQZXD7Gz": 10,
+        "vyt1m3xoZwk8Z0Oxn6yR": 1,
+        "TmNbC4NLrmwLjVLdMAMG": 1
+      },
+      "address": "CHÁCARA DO BIGODE ARACE",
+      "paymentInfo": {
+        "totalInstallments": 1,
+        "paidInstallments": 0
+      },
+      "returnDate": "2025-09-06",
+      "createdAt": {
+        "seconds": 1756851163,
+        "nanoseconds": 879000000
+      },
+      "client": "JULIA",
+      "date": "2025-09-06"
+    }
+  ]
+}

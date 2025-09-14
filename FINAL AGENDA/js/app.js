@@ -8,17 +8,20 @@ import {
   renderProductSelection,
   updateFinancialSummaries,
   updateRentalFormSummary,
+  renderExpenseList,
 } from "./ui/renderer.js";
 import * as auth from "./services/authService.js";
 import * as db from "./services/firestoreService.js";
 
 let products = [];
 let rentals = [];
+let expenses = [];
 let selectedProductsForRental = {};
 let selectedProductsForEdit = {};
 let currentEditRentalId = null;
 let unsubscribeProducts = null;
 let unsubscribeRentals = null;
+let unsubscribeExpenses = null;
 
 const init = () => {
   auth.onAuthStateChanged((user) => {
@@ -40,6 +43,7 @@ const handleLogin = () => {
 
   if (unsubscribeProducts) unsubscribeProducts();
   if (unsubscribeRentals) unsubscribeRentals();
+  if (unsubscribeExpenses) unsubscribeExpenses();
 
   unsubscribeProducts = db.onProductsChange((snapshot) => {
     products = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
@@ -50,14 +54,21 @@ const handleLogin = () => {
     rentals = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
     updateAppData();
   });
+
+  unsubscribeExpenses = db.onExpensesChange((snapshot) => {
+    expenses = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+    updateAppData();
+  });
 };
 
 const handleLogout = () => {
   if (unsubscribeProducts) unsubscribeProducts();
   if (unsubscribeRentals) unsubscribeRentals();
+  if (unsubscribeExpenses) unsubscribeExpenses();
 
   products = [];
   rentals = [];
+  expenses = [];
   selectedProductsForRental = {};
   elements.appContainer.classList.add("hidden");
   elements.loginContainer.classList.remove("hidden");
@@ -67,8 +78,9 @@ const handleLogout = () => {
 };
 
 const updateAppData = () => {
-  setRendererData(products, rentals);
+  setRendererData(products, rentals, expenses);
   renderProductList();
+  renderExpenseList();
   renderRentalHistory(elements.rentalSearchInput.value);
   updateFinancialSummaries();
   updateCreateRentalUI();
@@ -137,6 +149,23 @@ const setupEventListeners = () => {
     elements.productForm.reset();
   });
 
+  elements.expenseForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const expense = {
+      description: elements.expenseDescriptionInput.value.trim(),
+      amount: parseFloat(elements.expenseAmountInput.value),
+    };
+    if (!expense.description || isNaN(expense.amount) || expense.amount <= 0) {
+      showModal(
+        `<p class="text-red-400">Preencha todos os campos da despesa corretamente.</p>`
+      );
+      return;
+    }
+    await db.addExpense(expense);
+    showModal(`<p class="text-emerald-400">Despesa salva!</p>`);
+    elements.expenseForm.reset();
+  });
+
   elements.productList.addEventListener("click", (e) => {
     const editBtn = e.target.closest(".edit-product-btn");
     const deleteBtn = e.target.closest(".delete-product-btn");
@@ -162,6 +191,17 @@ const setupEventListeners = () => {
       }
       showModal(`<p>Tem certeza que deseja apagar este produto?</p>`, () =>
         db.deleteProduct(productId)
+      );
+    }
+  });
+
+  elements.expenseList.addEventListener("click", (e) => {
+    const deleteBtn = e.target.closest(".delete-expense-btn");
+
+    if (deleteBtn) {
+      const expenseId = deleteBtn.dataset.id;
+      showModal(`<p>Tem certeza que deseja apagar esta despesa?</p>`, () =>
+        db.deleteExpense(expenseId)
       );
     }
   });
@@ -441,6 +481,7 @@ const setupEventListeners = () => {
     const dataToExport = {
       products: products,
       rentals: rentals,
+      expenses: expenses,
     };
     const dataStr = JSON.stringify(dataToExport, null, 2);
     const dataBlob = new Blob([dataStr], { type: "application/json" });
@@ -479,6 +520,12 @@ const setupEventListeners = () => {
               for (const rental of importedData.rentals) {
                 const { id, ...rentalData } = rental;
                 await db.addRental(rentalData);
+              }
+              if (importedData.expenses) {
+                for (const expense of importedData.expenses) {
+                  const { id, ...expenseData } = expense;
+                  await db.addExpense(expenseData);
+                }
               }
               elements.loadingOverlay.classList.add("hidden");
               showModal(
